@@ -1,0 +1,87 @@
+{
+  "schema": "genesis.registry/1",
+  "note": "注册表只追加记录，不篡改历史。回滚通过追加 rollback 记录实现。",
+  "updated_at": "2026-11-18",
+  "agents": {
+    "genesis": [
+      {
+        "version": 1,
+        "parent": null,
+        "status": "active",
+        "file": ".opencode/agents/genesis.md",
+        "deployed_at": "2026-11-17",
+        "last_eval_at": null,
+        "goal": "六大职能主脑：架构/创建/迭代/评价/革新/监督，唯一部署登记权",
+        "metrics": "M1 评估轮执行率>=90%；M2 报告齐备率100%；M3 迭代不恶化；M4 无未评估部署；M5 个体标准全覆盖",
+        "eval": null,
+        "note": "初版：自进化协议 + 检查点定时评估"
+      }
+    ],
+    "genesis-architect": [
+      {
+        "version": 1,
+        "parent": null,
+        "status": "active",
+        "file": ".opencode/agents/genesis-architect.md",
+        "deployed_at": "2026-11-17",
+        "last_eval_at": null,
+        "goal": "设计者：产出智能体规格草稿与评估任务建议",
+        "metrics": "草稿100%含goal/metrics/design/expected/risk/eval-tasks六项元信息；frontmatter格式合法率100%",
+        "eval": null,
+        "note": "初版：只写草稿，禁止部署与 shell"
+      }
+    ],
+    "genesis-evaluator": [
+      {
+        "version": 1,
+        "parent": null,
+        "status": "active",
+        "file": ".opencode/agents/genesis-evaluator.md",
+        "deployed_at": "2026-11-17",
+        "last_eval_at": null,
+        "goal": "裁判：在评估集上运行任务、对比基线、产出裁决报告",
+        "metrics": "报告100%遵循模板；结论100%附命令级证据；不确定场景如实标注INCONCLUSIVE",
+        "eval": null,
+        "note": "初版：只写报告，对定义/评估集/草稿只读"
+      }
+    ],
+    "glass-researcher": [
+      {
+        "version": 1,
+        "parent": null,
+        "status": "retired",
+        "file": ".opencode/agents/glass-researcher.md（已被 v2 替代；存档：genesis/variants/glass-researcher.v1.20261117-1504.md）",
+        "deployed_at": "2026-11-17",
+        "last_eval_at": null,
+        "goal": "玻璃(FG)期货每个交易日产出区间研判、多空方向与可入场策略(触发/止损/目标)，按日结算达成胜率>85%、入场率>=80%、零扛单违规",
+        "metrics": "G1 每交易日存在glass/daily/YYYYMMDD.md；G2 performance.json的win_rate>0.85且与journal逐笔一致；G3 entry_rate>=0.80(严格口径=触发价实际被触及,entered/trading_days)；G4 violation_count=0且台账无止损被触及未离场条目",
+        "eval": null,
+        "note": "v1部署为probation。L0冻结:数据诚信/不扛单/台账不可伪造/保守结算；L1可迭代:ATR参数基线(触发0.25/目标0.4-0.6/止损1.0-1.5倍)。2026-11-17首次日结(盘中数据如实标注)后，因流程重构需求被v2替代"
+      },
+      {
+        "version": 2,
+        "parent": 1,
+        "status": "retired",
+        "file": ".opencode/agents/glass-researcher.md（已被 v3 替代；存档：genesis/variants/glass-researcher.v2.20261117-1623.md）",
+        "deployed_at": "2026-11-17",
+        "last_eval_at": "2026-11-17",
+        "goal": "同v1（个体目标与衡量标准不变）",
+        "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
+        "eval": "genesis/reports/eval-glass-researcher-v2-20261117.md（静态规格审计PASS：E2逐字保留6/6、E3流程要素39/39、E4无夹带变更、无gaming）",
+        "note": "流程重构变体：日结拆结算/研判两阶段+兼容模式，台账15列(规格版本列实现信号-版本可追溯)，B2内联补结算+B7幂等护栏。2026-11-17被v3替代。操作记录：登记v3时曾误将本条目替换而非追加，已即时发现并恢复（genesis自我纠错，如实记录）"
+      },
+      {
+        "version": 3,
+        "parent": 2,
+        "status": "probation",
+        "file": ".opencode/agents/glass-researcher.md",
+        "deployed_at": "2026-11-17",
+        "last_eval_at": "2026-11-18",
+        "goal": "同v1（个体目标与衡量标准不变）",
+        "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
+        "eval": "genesis/reports/eval-glass-researcher-v3-20261117.md（静态审计PASS：diff恰为声明4处、L0/参数/流程11/11保留、无夹带；部署前按裁决披露#2修正正文自述版本v2→v3共2处，multiset验证精确闭合）",
+        "note": "数据源维度进化：开放crude-data MCP权限（eta_get_indicator能源化工指标时序+京博石化挂牌价），B1取数指引板块联动数据优先MCP。裁决披露遗留：L0硬边界#1措辞「数值必须来自websearch/webfetch」未涵盖MCP通道（字面张力，修订需用户批准）——待立项v4。运行时验证待今晚19:30 pipeline。【2026-11-18首次运行时评估】阶段A结算11-18信号行→数据缺失（11-18日盘收盘日K免费源未发布，仅取得夜盘快照非完整日K，按A2缺失分支处理）；performance: entered=0/win_rate=0(无样本)/entry_rate=0.0(0/1)/violation_count=0/data_missing_days=1/consecutive_losses=0；三项差距：win_rate无样本、entry_rate=-0.80(归因数据源)、violation_count达标。台账14→15列迁移完成(既有行规格版本按A0填v1，经genesis核实正确：daily/20261117.md是v1产出)。进化决策：不动仅记录(首次基线无对比、强制立项未触发、小样本护栏entered<20、v3刚部署需观察MCP运行时效果)。详见 genesis/reports/daily-evolve-20261118.md。观察项：O1连续3交易日缺失率>30%→立项数据源进化；O2研判阶段B验证MCP来源标注；O4若11-19取数时11-18日K已发布→明示触发如实纠错重新结算"
+      }
+    ]
+  }
+}

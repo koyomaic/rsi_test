@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-11-18",
+  "contract": "FG2701",
+  "trading_days": 2,
+  "signal_days": 2,
+  "entered": 0,
+  "entry_rate": 0.0,
+  "wins": 0,
+  "win_rate": 0.0,
+  "net_points": 0.0,
+  "violation_count": 0,
+  "data_missing_days": 1,
+  "consecutive_losses": 0,
+  "notes": "研判模式B 2026-11-18执行（规格版本v3）。台账2行：①11-18行(空,触发880/止损905/目标869,规格版本v1,数据缺失终态——11-18日K未发布,仅夜盘快照,按A2缺失分支处理)；②11-19行(多,触发900/止损872/目标912,规格版本v3,待结算——本轮研判追加)。entered=0(无已入场行：11-18数据缺失未入场、11-19待结算未入场)；win_rate无样本(=0,无统计意义)；entry_rate=0/2=0.0。data_missing_days=1(11-18行)。consecutive_losses=0(数据缺失日不计入连续亏损)。样本不足(entered<20)，胜率参考性弱。v3进化点首次运行验证(O2)：MCP eta_get_indicator 4/9调用成功(CL1/CO1/HO1/NG1 Comdty,彭博源)，5个报500(edb_code不正确,因resource://eta/indicators索引读取被拒无法查代码)；日报数据快照节已标注MCP来源。注意：连续2个交易日(11-17盘中快照→11-18日K缺失)数据不完整，免费源不稳定(新浪T+1延迟+websearch无中文期货结果+东方财富/同花顺404)，数据缺失风险持续侵蚀指标分母。"
+}
