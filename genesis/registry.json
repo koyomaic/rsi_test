@@ -73,14 +73,26 @@
       {
         "version": 3,
         "parent": 2,
-        "status": "probation",
-        "file": ".opencode/agents/glass-researcher.md",
+        "status": "retired",
+        "file": ".opencode/agents/glass-researcher.md（已被 v4 替代；存档：genesis/variants/glass-researcher.v3.20261118-1016.md）",
         "deployed_at": "2026-11-17",
         "last_eval_at": "2026-11-18",
         "goal": "同v1（个体目标与衡量标准不变）",
         "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
         "eval": "genesis/reports/eval-glass-researcher-v3-20261117.md（静态审计PASS：diff恰为声明4处、L0/参数/流程11/11保留、无夹带；部署前按裁决披露#2修正正文自述版本v2→v3共2处，multiset验证精确闭合）",
-        "note": "数据源维度进化：开放crude-data MCP权限（eta_get_indicator能源化工指标时序+京博石化挂牌价），B1取数指引板块联动数据优先MCP。裁决披露遗留：L0硬边界#1措辞「数值必须来自websearch/webfetch」未涵盖MCP通道（字面张力，修订需用户批准）——待立项v4。运行时验证待今晚19:30 pipeline。【2026-11-18首次运行时评估】阶段A结算11-18信号行→数据缺失（11-18日盘收盘日K免费源未发布，仅取得夜盘快照非完整日K，按A2缺失分支处理）；performance: entered=0/win_rate=0(无样本)/entry_rate=0.0(0/1)/violation_count=0/data_missing_days=1/consecutive_losses=0；三项差距：win_rate无样本、entry_rate=-0.80(归因数据源)、violation_count达标。台账14→15列迁移完成(既有行规格版本按A0填v1，经genesis核实正确：daily/20261117.md是v1产出)。进化决策：不动仅记录(首次基线无对比、强制立项未触发、小样本护栏entered<20、v3刚部署需观察MCP运行时效果)。详见 genesis/reports/daily-evolve-20261118.md。观察项：O1连续3交易日缺失率>30%→立项数据源进化；O2研判阶段B验证MCP来源标注；O4若11-19取数时11-18日K已发布→明示触发如实纠错重新结算"
+        "note": "数据源维度进化：开放crude-data MCP权限（eta_get_indicator能源化工指标时序+京博石化挂牌价），B1取数指引板块联动数据优先MCP。裁决披露遗留：L0硬边界#1措辞「数值必须来自websearch/webfetch」未涵盖MCP通道（字面张力，修订需用户批准）——待立项v4。运行时验证待今晚19:30 pipeline。【2026-11-18首次运行时评估】阶段A结算11-18信号行→数据缺失（11-18日盘收盘日K免费源未发布，仅取得夜盘快照非完整日K，按A2缺失分支处理）；performance: entered=0/win_rate=0(无样本)/entry_rate=0.0(0/1)/violation_count=0/data_missing_days=1/consecutive_losses=0；三项差距：win_rate无样本、entry_rate=-0.80(归因数据源)、violation_count达标。台账14→15列迁移完成(既有行规格版本按A0填v1，经genesis核实正确：daily/20261117.md是v1产出)。进化决策：不动仅记录(首次基线无对比、强制立项未触发、小样本护栏entered<20、v3刚部署需观察MCP运行时效果)。详见 genesis/reports/daily-evolve-20261118.md。观察项：O1连续3交易日缺失率>30%→立项数据源进化；O2研判阶段B验证MCP来源标注；O4若11-19取数时11-18日K已发布→明示触发如实纠错重新结算。2026-11-18被v4替代（O5：MCP resource读取被宽deny拦截致命中率44%）"
+      },
+      {
+        "version": 4,
+        "parent": 3,
+        "status": "probation",
+        "file": ".opencode/agents/glass-researcher.md",
+        "deployed_at": "2026-11-18",
+        "last_eval_at": "2026-11-18",
+        "goal": "同v1（个体目标与衡量标准不变）",
+        "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
+        "eval": "genesis/reports/eval-glass-researcher-v4-20261118.md（静态审计PASS 4/4：diff恰为声明6处、L0/参数/流程12/12保留、无夹带无移除、RSI零残留；权限格式经官方文档独立核验；resource实测存在resource://eta/indicators/chemical含3731条映射）",
+        "note": "O5权限修复变体：新增opencode_list_mcp_resources@crude-data与opencode_read_mcp_resource@crude-data:*两条allow，修复v3宽deny误伤MCP resource读取（命中率44%→运行时目标>=80%）。用户中途撤销RSI计算变更（RSI为消息来源标记非指标）零残留。运行时T5验证待今晚pipeline。播报链同步升级：报告通知+复盘简报双推送，标题带【RSI】来源标记"
       }
     ]
   }
