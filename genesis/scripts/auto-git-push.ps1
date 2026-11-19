@@ -23,8 +23,8 @@ Write-Output "check3 changes: $n file(s)"
 $date = Get-Date -Format "yyyy-MM-dd"
 git add -A 2>&1 | Out-Null
 git commit -m "auto: daily evolution $date ($n files: settle/evolve/research/push)" 2>&1 | Out-Null
-git push 2>&1 | Out-Null
-$pushOk = $?
 $head = git rev-parse --short HEAD 2>&1
-if ($pushOk) { Write-Output "git archived: $head pushed ($n files)" }
-else { Write-Output "git commit $head OK but PUSH FAILED - check network/credentials"; exit 1 }
+# NOTE: git progress goes to stderr (PowerShell treats as error); use exit code instead of $?
+git push 2>&1 | Out-Null
+if ($LASTEXITCODE -ne 0) { Write-Output "git commit $head OK but PUSH FAILED - check network/credentials"; exit 1 }
+Write-Output "git archived: $head pushed ($n files)"
