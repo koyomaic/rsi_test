@@ -41,4 +41,7 @@ if (Test-Path -LiteralPath $brief) {
   "WARN: brief file not found: $brief" | Add-Content -Path $log -Encoding UTF8
 }
 
+"----- stage 5: auto git archive -----" | Add-Content -Path $log -Encoding UTF8
+powershell -NoProfile -ExecutionPolicy Bypass -File "D:\SFI\genesis\scripts\auto-git-push.ps1" 2>&1 | Add-Content -Path $log -Encoding UTF8
+
 "===== $stamp pipeline end =====" | Add-Content -Path $log -Encoding UTF8

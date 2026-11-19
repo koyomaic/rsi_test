@@ -517,3 +517,414 @@ OK
 - ✅ 数值全部取自台账与 performance.json 实际数据，禁止编造
 - ✅ 不确定时只记录不行动（O5 立项候选记录但未立即行动，遵守 pipeline 铁律）
 ===== 2026-11-18 08:43 pipeline end =====
+===== 2026-11-18 19:30 pipeline start (settle -> evolve -> research -> push) =====
+[0m
+> genesis · glm-5.2
+我将执行 glass-researcher 日度四段式 pipeline。先做启动检查。
+[0m→ [0mRead genesis/registry.json 
+[0m→ [0mRead genesis/goals.md 
+> genesis · glm-5.2
+已读取目标和 registry。当前状态：
+- glass-researcher **v4**（probation，2026-11-18 部署，基于 v3 的 O5 权限修复变体）
+- 台账已迁移到 15 列，含规格版本追溯
+- 前一次运行（v3）：11-18 信号行因日K未发布判定数据缺失
+- v4 是结算/研判两阶段模式（非单段式）
+
+需要先了解 glass 目录结构和 v4 定义，以及台账/performance 现状。
+[0m→ [0mRead glass 
+[0m→ [0mRead genesis/reports 
+[0m→ [0mRead .opencode/agents/glass-researcher.md 
+> genesis · glm-5.2
+v4 是两阶段日结模式。读取台账、performance、日报目录和前次进化日志，掌握当前状态。
+[0m→ [0mRead glass/push 
+[0m→ [0mRead glass/daily 
+[0m→ [0mRead glass/performance.json 
+[0m→ [0mRead genesis/reports/daily-evolve-20261118.md 
+[0m→ [0mRead glass/journal.md 
+> genesis · glm-5.2
+掌握全貌。今天 2026-11-18（周三，工作日），本日已有一次运行（v3→部署 v4）。台账当前 2 行：
+- 第1行：2026-11-18 FG2701 空，**数据缺失**终态（规格版本 v1，11-18 日K当时未发布）
+- 第2行：2026-11-19 FG2701 多，**待结算**（规格版本 v3，本轮不能结算——11-19 未到）
+
+**用户明示纠错授权触发**：第1行"数据缺失"行恰是 L0 条款 5「如实纠错只能由派遣方明示」的适用场景。我将派遣 glass-researcher v4 执行阶段A 结算，并明示授权纠错。
+
+---
+
+## 第一段【结算】开始
+
+派遣 glass-researcher（v4，probation）执行阶段A 结算模式：
+[0m✓ [0m执行11-18日结算+纠错 [90mGlass-Researcher Agent[0m
+> genesis · glm-5.2
+已派遣 glass-researcher（v4）执行第一段【结算】，sessionID: `ses_e11932498ffejsyrDhil0bpIT6`。
+
+任务要点：
+- 目标交易日 D=2026-11-18，只结算台账中目标日=11-18 的信号行（第1行，原"数据缺失"终态）
+- 第2行（目标日=11-19，待结算）：11-19 未到，不可结算，保持原状
+- **明示纠错授权**：若 11-18 FG2701 完整日K现已发布（晚 19:30 后大概率可得），按 L0 条款 5 重新结算，备注注明"genesis 明示授权纠错"，结果如实进入指标（含让指标变差的情况）
+- 若日K仍不可得，维持数据缺失，不强行结算
+
+等待 subagent 返回结算结果后进入第二段【进化】。
+[90mwaiting for 1 background job[0m
+> genesis · glm-5.2
+第一段【结算】完成。关键结果：
+- **纠错生效**：11-18 日K已发布（曲合网+证券之星交叉验证），第1行「数据缺失」→「未触发」
+- 11-18 FG2701：昨结889/开890/高911/低887/收899/结算价900；空头触发价880，当日最低887>880，未触发，未入场
+- 第2行（11-19 待结算）保持不变
+- data_missing_days: 1→0，其余指标不变（entered=0）
+
+**信任但验证**——读取台账与 performance 确认 subagent 实际落盘了：
+[0m→ [0mRead glass/journal.md 
+[0m→ [0mRead glass/performance.json 
+> genesis · glm-5.2
+第一段【结算】验证通过——台账第1行已正确从"数据缺失"纠错为"未触发"，备注完整记录纠错来源与 L0 条款5 授权；performance.json 的 data_missing_days 1→0，其余字段正确。落盘与 A4 汇报一致。
+
+---
+
+## 第二段【进化】日度进化轮
+
+读取结算后状态，与最近一份进化日志（同日早间第一轮 v3）对比：
+
+**结算后指标现状**：
+| 指标 | 值 | 目标 | 差距 | 较第一轮 |
+|---|---|---|---|---|
+| win_rate | 0.0（无样本） | >0.85 | 无法评估 | 持平（entered=0） |
+| entry_rate | 0.0(0/2) | >=0.80 | -0.80 | 分母1→2，分子仍0，持平 |
+| violation_count | 0 | =0 | 0 | 持平达标 |
+| data_missing_days | 0 | — | — | 1→0（纠错生效） |
+| consecutive_losses | 0 | <3 | — | 持平 |
+
+**三项差距归因**：
+- win_rate 无样本：entered=0（第1行未触发、第2行待结算），小样本非策略缺陷
+- entry_rate=-0.80 持平：第1行 v1 空头信号方向判断错误（11-18 实际大涨收899，v1 给空头）+触发价880低于最低887→未触发；**v1 已 retired 不可迭代，非 v4 策略参数问题**
+- violation_count=0 达标
+
+**判定**：三项核心指标未收窄也未恶化；data_missing_days 收窄归因于纠错机制（派遣方明示授权），非 v4 进化功劳。v4 进化点（O5 MCP resource 权限修复）本轮结算未触发 MCP 路径（A1 只取 FG 日K），运行时有效性留待第三段【研判】验证。
+
+**决策：不动仅记录**。理由：v4 刚部署运行时未验证（MCP 验证待研判）、强制立项未触发（consecutive_losses=0、近10笔胜率不适用）、小样本护栏生效（entered=0<20 禁调核心参数）、无新归因明确的差距（数据源已连续两轮进化 v3+v4，提示词无明显缺陷）。
+
+产出进化日志（追加第二轮章节到同日已有文件，保留第一轮历史不篡改）+ 更新 registry v4 note：
+[0m← [0mEdit genesis/reports/daily-evolve-20261118.md
+Index: genesis/reports/daily-evolve-20261118.md
+===================================================================
+--- genesis/reports/daily-evolve-20261118.md
++++ genesis/reports/daily-evolve-20261118.md
+@@ -116,4 +116,98 @@
+ 
+ ---
+ 
+ *本日志遵循自进化协议：差距未收窄也未恶化（首次基线无对比）→ 不动仅记录；FAIL 照实记录；不确定时只记录不行动。研判后新发现（v3 MCP 运行时验证）已追加为 O5 立项候选，下一轮优先评估。*
++
++---
++
++# 第二轮：2026-11-18 晚间运行（v4 首次运行时，含纠错）
++
++- **日期**: 2026-11-18（同日晚间二次运行）
++- **执行者**: genesis（自进化协议第二段）
++- **被评对象**: glass-researcher v4（probation，部署于 2026-11-18，基于 v3 的 O5 权限修复变体）
++- **基线**: 本日第一轮（v3 首次基线轮，见上文）+ v4 静态审计 PASS（eval-glass-researcher-v4-20261118.md）
++- **结算来源**: 阶段A 结算汇报（ses_e11932498ffejsyrDhil0bpIT6），含 genesis 明示授权纠错
++
++## 一、本轮结算后指标现状（performance.json as_of=2026-11-18，纠错生效）
++
++| 指标 | 值 | 目标 | 差距 | 状态 | 较第一轮 |
++|---|---|---|---|---|---|
++| trading_days | 2 | — | — | — | 1→2（+1，11-19 待结算行） |
++| signal_days | 2 | — | — | — | 1→2 |
++| entered | 0 | — | — | 无已入场行 | 持平 |
++| **win_rate** | 0.0（无样本） | >0.85 | 无法评估 | entered=0，无统计意义 | 持平（无样本） |
++| **entry_rate** | 0.0（0/2） | >=0.80 | -0.80 | 第1行未触发+第2行待结算 | 分母 1→2，分子仍 0 |
++| **violation_count** | 0 | =0 | 0 | **达标 ✓** | 持平（达标） |
++| data_missing_days | 0 | — | — | 纠错生效 | 1→0（收窄） |
++| consecutive_losses | 0 | <3 | — | 无降级警示 | 持平 |
++| net_points | 0.0 | — | — | 无已结算盈亏 | 持平 |
++
++## 二、三项差距归因
++
++| 差距 | 归因 | 维度 |
++|---|---|---|
++| win_rate 无样本 | entered=0（第1行未触发、第2行待结算），无已入场样本 | 小样本（非策略缺陷） |
++| entry_rate=0.0 | 第1行 v1 空头信号触发价880低于当日最低887（7点距离）→未触发；第2行 11-19 待结算未结清。根因是 v1 信号方向判断错误（11-18 实际大涨收899涨1.12%，v1 给空头）+触发价保守。**非 v4 策略参数问题**——v1 已 retired，v3/v4 尚无产出样本可评估方向判断准确性 | 参数（但属 v1 历史信号，不可迭代） |
++| violation_count=0 | 达标，无归因需求 | — |
++
++**纠错机制验证**：genesis 明示授权纠错第1行（数据缺失→未触发），11-18 日K已发布（曲合网 https://www.quheqihuo.com/news/202611184502717.html 发布 2026-11-18 16:07 + 证券之星 https://quote.stockstar.com/futures/czcefg.html 更新 2026-11-18，交叉验证：昨结889/开890/高911/低887/收899/结算900），按 L0 条款5 如实纠错。data_missing_days 从 1 降为 0。**纠错结果如实进入指标**（未触发≠已入场，entered 仍为 0，entry_rate 分母从 1 变 2）。
++
++**v1 信号方向错误揭示**：11-18 FG2701 实际大涨（收899涨1.12%，最高911），v1（11-17 盘中快照产出）给出空头信号（触发880/止损905/目标869）。方向判断错误，但触发价880设得保守（低于最低887），未入场未亏损。v1 已 retired，不可迭代；v3/v4 的方向判断准确性需更多样本验证（11-19 多头信号待明天结算）。
++
++## 三、与第一轮对比（同日早晚两次运行）
++
++| 维度 | 第一轮（v3 结算后） | 第二轮（v4 结算后，含纠错） | 变化 |
++|---|---|---|---|
++| 被评对象 | v3（probation） | v4（probation，O5 权限修复） | v3→v4（同日部署） |
++| 结算行 | 11-18 数据缺失 | 11-18 未触发（纠错） | 纠错生效 |
++| trading_days | 1 | 2 | +1（11-19 待结算行追加于第一轮研判） |
++| entered | 0 | 0 | 持平 |
++| win_rate | 无样本 | 无样本 | 持平 |
++| entry_rate | 0.0(0/1) | 0.0(0/2) | 分母+1，差距持平 -0.80 |
++| violation_count | 0 | 0 | 持平达标 |
++| data_missing_days | 1 | 0 | 收窄（纠错） |
++
++**判定**：
++- **win_rate**：无样本，无统计意义，谈不上收窄/恶化
++- **entry_rate**：持平 -0.80（分母增大但分子仍 0），未收窄也未恶化——根因是 v1 信号未触发+待结算样本未结清，非当前版本（v4）策略参数问题
++- **violation_count**：持续达标
++- **data_missing_days**：收窄（1→0），但这是纠错机制生效（派遣方明示授权），非数据源稳定性提升或 v4 进化功劳
++
++**综合**：三项核心指标（win_rate/entry_rate/violation）未收窄也未恶化；data_missing_days 收窄归因于纠错机制。v4 进化点（O5 MCP resource 权限修复）本轮结算未触发 MCP 路径（A1 只取 FG 日K），运行时有效性留待第三段【研判】验证。
++
++## 四、本轮决策：不动仅记录
++
++**决策**：不立项、不迭代、不部署新版本、不升 active。v4 维持 probation 状态。
++
++**理由**（逐条对照自进化协议判断条件）：
++
++1. **v4 刚部署（同日），运行时未验证**：v4 是 O5 权限修复变体，静态审计 PASS 但运行时 T5 待验证。本轮结算模式不触发 MCP（A1 只取 FG 日K），MCP 命中率无法在本段测量。第三段【研判】将首次实际触发 v4 的 MCP resource 读取路径——需观察研判阶段 MCP 命中率（目标 >=80%，v3 基线 44%）再决定下一轮方向（升 active / 立项 v5 / 回滚 v3）
++
++2. **强制立项未触发**：consecutive_losses=0（<3），无降级警示；近 10 笔胜率无样本（<0.7 判据不适用）
++
++3. **小样本护栏生效**：entered=0 < 20，禁调核心策略参数；仅允许低风险进化（数据源/提示词修复）。本轮无新的低风险进化归因：
++   - 数据源：v3 已开放 crude-data MCP，v4 已修复 MCP resource 读取权限——数据源维度已连续两轮进化（v3+v4），本轮研判模式才能验证 v4 效果，不宜在未验证前再立项
++   - 提示词：v4 提示词包含完整两阶段流程、L0 红线、参数基线、15 列台账、规格版本接口等，无明显产出缺陷需修复
++
++4. **entry_rate 持平的根因不可迭代**：第1行 v1 空头方向判断错误+触发价保守→未触发；v1 已 retired，不能迭代；v3/v4 尚无产出样本（11-19 信号明天才结算）可评估方向判断准确性
++
++5. **纠错机制已生效，数据缺失风险本轮消除**：data_missing_days=0。但这是派遣方明示授权纠错的结果，非数据源稳定性提升。仍需观察接下来 2 个交易日的自然缺失率（不靠纠错）
++
++6. **pipeline 铁律**：进化段已过，不能因第三段【研判】的新发现中途追加进化。v4 运行时验证结果（MCP 命中率）将记录为本日志第三段后追加章节，作为下一轮（11-19 pipeline）立项/升 active 的依据
++
++## 五、观察项更新
++
++| # | 观察项 | 触发条件 | 行动 | 状态 |
++|---|---|---|---|---|
++| O5（已部署 v4） | v4 MCP resource 读取权限修复验证 | 第三段【研判】MCP 命中率 >=80% | PASS→升 active；<80%→立项 v5 或回滚 v3 | **本轮研判验证** |
++| O1 | data_missing_days 自然趋势（非纠错） | 连续 3 交易日自然缺失率 >30% | 立项数据源进化（FG 日K付费源/交易所直连） | 观察中（本轮纠错归零，非自然） |
++| O6（新增） | v3/v4 方向判断准确性 | 11-19 信号结算后，若方向错误→归因（参数还是提示词） | 连续 2 笔方向错误→立项参数进化（但需 entered>=20 解除小样本护栏） | 待 11-19 收盘后结算验证 |
++| O4（已触发） | 11-18 日K延迟发布→纠错 | 已触发并纠错 | 完成 | **关闭** |
++
++**小样本护栏状态**：entered=0 < 20，仅允许低风险进化（数据源/提示词修复），禁调核心策略参数——本轮不动，符合护栏。
++
++**registry 更新**：glass-researcher v4 的 last_eval_at 维持 2026-11-18（同日二次评估，日期未变）；note 追加本轮评估结果摘要。
++
++---
++
++*第二轮遵循自进化协议：差距未收窄也未恶化（entry_rate 持平、win_rate 无样本、violation 达标）→ 不动仅记录；v4 运行时验证待第三段【研判】；FAIL 照实记录；不确定时只记录不行动。*
+System.Management.Automation.RemoteException
+[0m← [0mEdit genesis/registry.json
+Index: genesis/registry.json
+===================================================================
+--- genesis/registry.json
++++ genesis/registry.json
+@@ -91,9 +91,9 @@
+         "last_eval_at": "2026-11-18",
+         "goal": "同v1（个体目标与衡量标准不变）",
+         "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
+         "eval": "genesis/reports/eval-glass-researcher-v4-20261118.md（静态审计PASS 4/4：diff恰为声明6处、L0/参数/流程12/12保留、无夹带无移除、RSI零残留；权限格式经官方文档独立核验；resource实测存在resource://eta/indicators/chemical含3731条映射）",
+-        "note": "O5权限修复变体：新增opencode_list_mcp_resources@crude-data与opencode_read_mcp_resource@crude-data:*两条allow，修复v3宽deny误伤MCP resource读取（命中率44%→运行时目标>=80%）。用户中途撤销RSI计算变更（RSI为消息来源标记非指标）零残留。运行时T5验证待今晚pipeline。播报链同步升级：报告通知+复盘简报双推送，标题带【RSI】来源标记"
++        "note": "O5权限修复变体：新增opencode_list_mcp_resources@crude-data与opencode_read_mcp_resource@crude-data:*两条allow，修复v3宽deny误伤MCP resource读取（命中率44%→运行时目标>=80%）。用户中途撤销RSI计算变更（RSI为消息来源标记非指标）零残留。运行时T5验证待今晚pipeline。播报链同步升级：报告通知+复盘简报双推送，标题带【RSI】来源标记 【2026-11-18晚间第二次评估】结算11-18行(genesis明示纠错:日K已发布曲合网+证券之星交叉验证昨结889/开890/高911/低887/收899/结算900,空头触发880最低887>880→未触发,状态数据缺失→未触发终态);data_missing_days 1→0;entered=0/win_rate=0(无样本)/entry_rate=0.0(0/2)/violation=0/consecutive_losses=0。三项差距:win_rate无样本、entry_rate=-0.80持平(根因v1空头方向错误11-18大涨收899但v1给空头,v1已retired不可迭代)、violation达标。进化决策:不动仅记录(v4刚部署运行时MCP验证待研判A1不触发MCP、强制立项未触发、小样本护栏entered<20、无新归因明确差距)。v4运行时MCP验证待第三段研判。详见 daily-evolve-20261118.md 第二轮章节"
+       }
+     ]
+   }
+ }
+System.Management.Automation.RemoteException
+> genesis · glm-5.2
+第二段【进化】完成：
+- 进化日志 `daily-evolve-20261118.md` 已追加第二轮章节（保留第一轮 v3 历史不篡改）
+- registry.json v4 note 已追加本轮评估摘要
+- 决策：不动仅记录（v4 运行时 MCP 验证待研判、强制立项未触发、小样本护栏生效、无新归因明确差距）
+
+**关键观察项**：v4 的 O5 权限修复（MCP resource 读取）运行时验证待第三段【研判】——本轮研判将首次实际触发 MCP resource 读取路径，命中率目标 >=80%（v3 基线 44%）。
+
+---
+
+## 第三段【研判】开始
+
+分析台账现状：目标日 D+1=2026-11-19 的信号行**已存在**（第2行，v3 研判追加，待结算）。按规格 B7 幂等护栏，不重复追加。日报 glass/daily/20261118.md 也已存在（v3 产出），按 B6 不覆盖。
+
+但本轮有一个关键新情况：**11-18 完整日K现已可得**（第一段结算纠错时取得：昨结889/开890/高911/低887/收899/结算900），而 v3 产出 11-19 信号时 11-18 日K缺失（基于夜盘快照+11-17日K研判）。v4 应基于 11-18 完整日K独立研判，在汇报中说明与 v3 已落盘信号的差异，由派遣方决定是否明示授权修正。
+
+派遣 glass-researcher v4 执行阶段B 研判模式：
+[0m✓ [0m执行11-19研判v4首次运行 [90mGlass-Researcher Agent[0m
+> genesis · glm-5.2
+已派遣 glass-researcher v4 执行第三段【研判】，sessionID: `ses_e1188c64fffeovBAslrqaO3KOS`。
+
+任务要点：
+- 基日 D=2026-11-18（完整日K已可得），目标日 D+1=2026-11-19
+- **幂等护栏**：目标日 11-19 信号已存在（v3 产出），不重复追加台账、不覆盖日报
+- v4 仍完成 B1-B5 分析（基于 11-18 完整日K），汇报 v4 研判与 v3 已落盘信号的对比
+- **v4 运行时验证 T5**：首次实际触发 MCP resource 读取路径，记录命中率（v3 基线 44%，目标 >=80%）
+- 明日实际生效信号：读台账第2行（v3 多/触发900/止损872/目标912）
+
+等待期间，读取第一轮已存在的播报文件（纯读取，不冲突），为第四段【播报】做准备：
+[0m→ [0mRead glass/push/report-20261119.md 
+[0m→ [0mRead glass/push/brief-20261118.md 
+> genesis · glm-5.2
+读取了第一轮的播报文件。关键发现：
+- **report-20261119.md**（v3 研判通知）：多 FG2701，触发900/止损872/目标912，盈亏比0.43，轻仓——内容注明"11-18 日K缺失，研判基于夜盘快照"
+- **brief-20261118.md**（第一轮复盘）：结算仍写"数据缺失"，进化写"MCP 权限缺陷 O5 已立项 v4 修复"——**两处均已过时**（本轮纠错生效 + v4 已部署）
+
+第四段【播报】需要：
+1. 覆盖 brief-20261118.md，写入最新复盘（结算=纠错生效、指标更新、进化=不动+v4运行时验证结果）
+2. 视 v4 研判结果决定是否更新 report-20261119.md（若 v4 基于 11-18 完整日K的研判与 v3 有偏差，需更新；若一致，保持）
+
+等待 v4 研判返回后执行第四段【播报】。
+> genesis · glm-5.2
+第三段【研判】完成。关键结果：
+
+1. **幂等护栏触发**：日报不覆盖、台账不追加，明日实际生效信号沿用 v3 已落盘（多/触发900/止损872/目标912）
+2. **v4 基于 11-18 完整日K确认 v3 信号仍有效**：方向/触发/止损/目标完全一致；差异仅在 ATR5（23.8→25.4）和 R1（905→911，日盘最高更高），止损/目标距离仍在 L1 基线内
+3. **v4 运行时验证 T5 结果（关键发现）**：
+   - list_mcp_resources ✅ 解禁
+   - read_mcp_resource 1/5 成功（仅 chemical；主索引及 crude/products/fuel_oil 被 **api key owner 限制**拒绝）
+   - eta_get_indicator 命中率 57%（4/7），较 v3 基线 44% +13pp，**低于 80% 目标**
+   - **根因**：v4 O5 修复必要但不充分——权限规则已解禁，但上游 api key owner（聚烯烃经营利润大脑）仅授权 chemical 类别，且 ETA 系统不含 Chinese futures 合约代码
+
+**验证 performance.json B8 重算结果**：
+[0m→ [0mRead glass/performance.json 
+> genesis · glm-5.2
+performance.json 已被 subagent 正确更新——notes 完整反映结算+研判+MCP 验证结果，数据字段正确（entered=0, win_rate=0, entry_rate=0.0, violation_count=0, data_missing_days=0, consecutive_losses=0, trading_days=2）。台账未变（幂等护栏），B8 重算幂等。
+
+---
+
+## 第四段【播报】开始
+
+分析：
+- **brief-20261118.md**：第一轮内容已过时（结算写"数据缺失"、进化写"O5 已立项 v4 修复"）→ 需覆盖，写入最新复盘（纠错生效 + v4 首次运行 MCP 验证结果）
+- **report-20261119.md**：原内容注明"11-18 日K缺失，研判基于夜盘快照"已过时 → 需更新。v4 基于 11-18 完整日K确认 v3 信号仍有效（方向/触发/止损/目标完全一致），区间修正为 v4 版本（R1 905→911 等）
+
+并行写两个播报文件（数值全部取自台账与 performance.json，禁止编造）：
+[0m← [0mWrite glass/push/brief-20261118.md
+Wrote file successfully: glass/push/brief-20261118.md
+[0m← [0mWrite glass/push/report-20261119.md
+Wrote file successfully: glass/push/report-20261119.md
+> genesis · glm-5.2
+第四段【播报】两个文件写入成功：
+- `glass/push/brief-20261118.md`：最新复盘（结算=纠错生效、指标=0/0|0/2|0|0、进化=不动+v4 MCP 57% 未达 80% 瓶颈在上游）
+- `glass/push/report-20261119.md`：v4 基于 11-18 完整日K的研判（多/触发900/止损872/目标912，区间修正 R1=911）
+
+**最后一步**：按 pipeline 铁律，第三段【研判】的新发现（v4 运行时验证结果）不能中途改变第二段进化决策，但需追加到进化日志作为下一轮立项候选（类似第一轮的"研判后追加"章节）。
+
+追加 v4 运行时验证结果到进化日志：
+[0m← [0mEdit genesis/reports/daily-evolve-20261118.md
+Index: genesis/reports/daily-evolve-20261118.md
+===================================================================
+--- genesis/reports/daily-evolve-20261118.md
++++ genesis/reports/daily-evolve-20261118.md
+@@ -210,4 +210,62 @@
+ 
+ ---
+ 
+ *第二轮遵循自进化协议：差距未收窄也未恶化（entry_rate 持平、win_rate 无样本、violation 达标）→ 不动仅记录；v4 运行时验证待第三段【研判】；FAIL 照实记录；不确定时只记录不行动。*
++
++---
++
++## 第三段【研判】后追加：v4 运行时验证结果（T5/O5）
++
++> 本节为第三段【研判】阶段B 完成后追加。第二段进化决策（不动仅记录）基于结算后信息做出，**不因本节新发现而中途改变**（pipeline 铁律：结算→进化→新研判→播报，顺序不可颠倒）。新发现记录为下一轮立项候选。
++
++### v4 运行时验证（T5/O5）结果
++
++| 验证项 | 结果 |
++|---|---|
++| list_mcp_resources(crude-data) | ✅ 成功（返回 1 resource: resource://eta/indicators/chemical） |
++| read_mcp_resource | 1/5 成功（仅 chemical 可读；主索引 resource://eta/indicators + crude + products + fuel_oil 被 api key owner 限制拒绝，owner=聚烯烃经营利润大脑） |
++| eta_get_indicator 调用 | 7 次（v3 基线 9 次，−2 减少无效猜测） |
++| eta_get_indicator 成功 | 4/7 = 57%（v3 基线 4/9 = 44%，+13pp） |
++| 成功的 edb_code | CL1 Comdty(WTI)、CO1 Comdty(Brent)、NG1 Comdty(天然气)、HO1 Comdty(美国燃油)——均为 v3 已验证的 Bloomberg Comdty 代码 |
++| 失败的 edb_code | FG2701.CZC、SA2701.CZC、FU2701.SHF 报 500（Chinese futures codes 不在 ETA 系统） |
++| 总 MCP 成功率 | 6/13 = 46%（list 1 + read 1 + eta 4 = 6 成功 / 13 总调用） |
++| 日报 MCP 来源标注 | ✅（数据快照节板块联动数据标注 MCP: eta_get_indicator） |
++
++### v4 进化点有效性判定
++
++- **进化方向正确**：v4 的 O5 修复（开放 MCP resource 读取权限）使 list_mcp_resources 解禁、chemical 索引可读——相比 v3（宽 deny 全拦截）是纯增益
++- **部分有效但未达目标**：eta_get_indicator 命中率从 44% 提升至 57%（+13pp），但**低于 80% 目标**
++- **根因不在 v4 权限规则**：v4 的 opencode_read_mcp_resource @ crude-data:* 规则已放行，但上游 api key owner（聚烯烃经营利润大脑）仅授权 chemical 类别（1/5 resource 可读），且 ETA 系统不含 Chinese futures 合约代码（FG2701.CZC 等报 500）
++- **不构成回滚信号**：v4 相比 v3 是纯增益（新增 list_mcp_resources 能力 + chemical 索引读取 + 命中率 +13pp），无任何能力移除或恶化
++
++### v4 状态决策
++
++- **维持 probation**：v4 进化点部分有效但未达 80% 目标，不宜升 active
++- **不回滚**：v4 相比 v3 是纯增益，无恶化
++- **不立即立项 v5**：根因（api key owner 限制）超出 agent 自进化范围，需用户/外部与 crude-data 服务提供方协调
++
++### 新增立项候选 O7（下一轮评估，需用户介入）
++
++| # | 立项候选 | 维度 | 风险等级 | 触发条件 | 行动 |
++|---|---|---|---|---|---|
++| **O7** | **api key owner 权限协调**：v4 O5 修复验证表明，MCP 命中率未达 80% 的根因是上游 api key owner（聚烯烃经营利润大脑）仅授权 chemical 类别，非 agent 权限规则问题。需与 crude-data 服务提供方协调：①开放 resource://eta/indicators 主索引及 crude/products/fuel_oil 类别读取权限；②确认 ETA 系统是否支持 Chinese futures 合约代码（FG2701.CZC 等）或提供替代 edb_code 格式 | MCP/工具（外部协调） | 中（超出 agent 自进化范围，需用户介入） | 下一轮（11-19 pipeline）评估 | **需用户批准**：此立项超出 genesis 自进化协议范围（不能通过 architect→evaluator→部署 解决），需用户与 crude-data 服务提供方协调。genesis 记录候选，等待用户决策 |
++
++### 下一轮（11-19 pipeline）进化优先级
++
++1. **O7（高优先级，需用户介入）**：api key owner 权限协调——v4 O5 修复的剩余瓶颈，超出 agent 自进化范围
++2. **O5（已部署 v4，部分有效）**：维持 probation，观察后续运行时 MCP 命中率是否稳定改善
++3. **O1（观察中）**：data_missing_days 自然趋势——本轮纠错归零（非自然），仍需观察接下来 2 个交易日的自然缺失率
++4. **O6（待 11-19 收盘后结算验证）**：v3/v4 方向判断准确性——11-19 多头信号（触发900）明天结算后验证
++5. **小样本护栏**：entered=0 < 20，禁调核心策略参数——下一轮仍受护栏约束（除非 11-19 信号触发入场并结算）
++
++### 幂等护栏触发说明
++
++本轮【研判】触发 B6/B7 幂等护栏：
++- 日报 glass/daily/20261118.md 已存在（v3 第一轮产出），默认不覆盖
++- 台账目标日=11-19 行已存在（v3 第一轮追加，待结算），不重复追加
++- v4 基于 11-18 完整日K独立研判，确认 v3 信号仍有效（方向/触发/止损/目标完全一致；差异仅在 ATR5 23.8→25.4、R1 905→911，止损/目标距离仍在 L1 基线内）
++- 明日实际生效信号：沿用台账第2行（v3 产出，多/触发900/止损872/目标912，盈亏比0.43，轻仓）
++
++---
++
++*第三段【研判】后追加遵循 pipeline 铁律：进化段决策不因研判段新发现而中途改变。v4 运行时验证结果（O5 部分有效，MCP 命中率 57% 未达 80%，根因在上游 api key owner 限制）记录为下一轮立项候选 O7（需用户介入）。FAIL 照实记录；不确定时只记录不行动。*
+System.Management.Automation.RemoteException
+> genesis · glm-5.2
+四段式 pipeline 全部完成。最终汇报：
+
+---
+
+## glass-researcher 日度四段式 pipeline 执行总结（2026-11-18 晚间）
+
+### 第一段【结算】✅
+- **genesis 明示纠错授权生效**：11-18 FG2701 日K已发布（曲合网+证券之星交叉验证：昨结889/开890/高911/低887/收899/结算900）
+- 台账第1行（v1 空头，触发880）：数据缺失 → **未触发**（最低887>880，未入场未亏损）
+- 第2行（v3 多，目标日11-19）：待结算保持（11-19 未到）
+- **data_missing_days 1→0**，其余指标不变（entered=0, violation_count=0）
+
+### 第二段【进化】✅ 决策：不动仅记录
+- 三项差距：win_rate 无样本、entry_rate=-0.80 持平（根因 v1 空头方向错误已 retired 不可迭代）、violation 达标
+- v4 刚部署运行时未验证 + 强制立项未触发 + 小样本护栏（entered=0<20）+ 无新归因明确差距
+- 进化日志 `daily-evolve-20261118.md` 追加第二轮章节；registry v4 note 追加评估摘要
+
+### 第三段【研判】✅ 幂等护栏触发
+- 日报/台账不重复落盘（v3 第一轮已产出）
+- **v4 基于 11-18 完整日K确认 v3 信号仍有效**：方向/触发/止损/目标完全一致（多/900/872/912）；ATR5 23.8→25.4，R1 905→911，止损/目标距离仍在 L1 基线内
+- **v4 运行时验证 T5 关键发现**：
+  - list_mcp_resources ✅ 解禁；read_mcp_resource 1/5 成功（仅 chemical）
+  - eta_get_indicator 命中率 **57%（4/7）**，较 v3 基线 44% **+13pp，但低于 80% 目标**
+  - **根因**：v4 权限规则已放行，但上游 **api key owner（聚烯烃经营利润大脑）仅授权 chemical 类别**，且 ETA 系统不含 Chinese futures 合约代码
+  - v4 维持 probation（不升 active、不回滚，相比 v3 是纯增益）
+
+### 第四段【播报】✅
+- `glass/push/brief-20261118.md`：最新复盘（结算=纠错生效、指标=0/0|0/2|0|0、进化=不动+v4 MCP 57% 瓶颈在上游）
+- `glass/push/report-20261119.md`：v4 基于 11-18 完整日K的研判（多/触发900/止损872/目标912，区间 R1=911）
+- 推送由外层 PowerShell 脚本执行，我不在会话内调用推送命令
+
+### 明日实际生效信号
+**多 FG2701，触发 900 / 止损 872 / 目标 912（盈亏比 0.43，轻仓）**——v3 产出，v4 基于 11-18 完整日K确认有效
+
+### 下一轮（11-19 pipeline）进化优先级
+1. **O7（高优先级，需用户介入）**：api key owner 权限协调——v4 O5 修复的剩余瓶颈，超出 agent 自进化范围，需用户与 crude-data 服务提供方协调（①开放主索引及 crude/products/fuel_oil 类别读取权限；②确认 ETA 是否支持 Chinese futures 合约代码）
+2. **O5（已部署 v4，部分有效）**：维持 probation 观察
+3. **O6（待 11-19 收盘后结算验证）**：v3/v4 方向判断准确性——11-19 多头信号触发900明天结算
+4. **小样本护栏**：entered=0 < 20，下一轮仍禁调核心策略参数
+
+### 硬边界核查
+- L0 冻结：goals.md / eval/** 未修改 ✓
+- 台账不可伪造：纠错经派遣方明示授权，备注注明原因 ✓
+- 评估进行期间未修改 agent 定义 ✓
+- FAIL 照实记录：v4 MCP 命中率 57% 未达 80% 如实汇报 ✓
+- 无头自动运行，未调用推送命令 ✓
+
+**需要您关注**：立项候选 O7（api key owner 权限协调）超出 genesis 自进化协议范围，需您与 crude-data 服务提供方协调。是否需要我准备更详细的协调说明？
+----- push report (【RSI】FG研判 2026-11-19) -----
+OK
+report push exit: 0
+----- push brief (【RSI】FG复盘 2026-11-18) -----
+OK
+brief push exit: 0
+===== 2026-11-18 19:30 pipeline end =====

@@ -92,7 +92,7 @@
         "goal": "同v1（个体目标与衡量标准不变）",
         "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
         "eval": "genesis/reports/eval-glass-researcher-v4-20261118.md（静态审计PASS 4/4：diff恰为声明6处、L0/参数/流程12/12保留、无夹带无移除、RSI零残留；权限格式经官方文档独立核验；resource实测存在resource://eta/indicators/chemical含3731条映射）",
-        "note": "O5权限修复变体：新增opencode_list_mcp_resources@crude-data与opencode_read_mcp_resource@crude-data:*两条allow，修复v3宽deny误伤MCP resource读取（命中率44%→运行时目标>=80%）。用户中途撤销RSI计算变更（RSI为消息来源标记非指标）零残留。运行时T5验证待今晚pipeline。播报链同步升级：报告通知+复盘简报双推送，标题带【RSI】来源标记"
+        "note": "O5权限修复变体：新增opencode_list_mcp_resources@crude-data与opencode_read_mcp_resource@crude-data:*两条allow，修复v3宽deny误伤MCP resource读取（命中率44%→运行时目标>=80%）。用户中途撤销RSI计算变更（RSI为消息来源标记非指标）零残留。运行时T5验证待今晚pipeline。播报链同步升级：报告通知+复盘简报双推送，标题带【RSI】来源标记 【2026-11-18晚间第二次评估】结算11-18行(genesis明示纠错:日K已发布曲合网+证券之星交叉验证昨结889/开890/高911/低887/收899/结算900,空头触发880最低887>880→未触发,状态数据缺失→未触发终态);data_missing_days 1→0;entered=0/win_rate=0(无样本)/entry_rate=0.0(0/2)/violation=0/consecutive_losses=0。三项差距:win_rate无样本、entry_rate=-0.80持平(根因v1空头方向错误11-18大涨收899但v1给空头,v1已retired不可迭代)、violation达标。进化决策:不动仅记录(v4刚部署运行时MCP验证待研判A1不触发MCP、强制立项未触发、小样本护栏entered<20、无新归因明确差距)。v4运行时MCP验证待第三段研判。详见 daily-evolve-20261118.md 第二轮章节"
       }
     ]
   }

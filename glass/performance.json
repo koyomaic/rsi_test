@@ -9,7 +9,7 @@
   "win_rate": 0.0,
   "net_points": 0.0,
   "violation_count": 0,
-  "data_missing_days": 1,
+  "data_missing_days": 0,
   "consecutive_losses": 0,
-  "notes": "研判模式B 2026-11-18执行（规格版本v3）。台账2行：①11-18行(空,触发880/止损905/目标869,规格版本v1,数据缺失终态——11-18日K未发布,仅夜盘快照,按A2缺失分支处理)；②11-19行(多,触发900/止损872/目标912,规格版本v3,待结算——本轮研判追加)。entered=0(无已入场行：11-18数据缺失未入场、11-19待结算未入场)；win_rate无样本(=0,无统计意义)；entry_rate=0/2=0.0。data_missing_days=1(11-18行)。consecutive_losses=0(数据缺失日不计入连续亏损)。样本不足(entered<20)，胜率参考性弱。v3进化点首次运行验证(O2)：MCP eta_get_indicator 4/9调用成功(CL1/CO1/HO1/NG1 Comdty,彭博源)，5个报500(edb_code不正确,因resource://eta/indicators索引读取被拒无法查代码)；日报数据快照节已标注MCP来源。注意：连续2个交易日(11-17盘中快照→11-18日K缺失)数据不完整，免费源不稳定(新浪T+1延迟+websearch无中文期货结果+东方财富/同花顺404)，数据缺失风险持续侵蚀指标分母。"
+  "notes": "结算模式A+研判模式B 2026-11-18执行（规格版本v4首次实际运行）。台账2行：①11-18行(空,触发880/止损905/目标869,v1,状态=未触发——genesis明示授权纠错：原数据缺失系首次运行时日K未发布，后日K已发布(曲合网+证券之星交叉验证：昨结889/开890/高911/低887/收899/结算900)，按L0条款5纠错重新结算；空头触发880，开890>880且最低887>880→未触发终态；不计入data_missing_days与entered)；②11-19行(多,触发900/止损872/目标912,v3,待结算——幂等护栏下v4研判确认v3信号仍有效，不重复追加)。entered=0(11-18未触发、11-19待结算)；win_rate无样本(=0)；entry_rate=0/2=0.0；data_missing_days=0；consecutive_losses=0。样本不足(entered<20)，胜率参考性弱。v4 O5 MCP验证(研判模式B首次触发)：list_mcp_resources✅(返回1 resource:chemical)；read_mcp_resource 1/5成功(仅chemical可读,主索引+crude+products+fuel_oil被api key owner拒绝)；eta_get_indicator 4/7成功(CL1/CO1/NG1/HO1 Comdty彭博源,命中率57% vs v3基线44%；FG2701.CZC/SA2701.CZC/FU2701.SHF报500)。总MCP 6/13=46%成功。v4修复部分有效(resource listing+chemical读取已解禁),但api key owner限制仍阻止主索引及3个category读取,Chinese futures codes不在ETA系统中→命中率改善+13pp(44%→57%)但仍低于80%目标。"
 }
