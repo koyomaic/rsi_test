@@ -14,7 +14,8 @@ if ($LASTEXITCODE -ne 0) { Write-Output "ABORT push: sensitive content found"; e
 Write-Output "check2 sensitive scan: OK"
 
 # --- Check 3: changes present? ---
-$status = git status --porcelain 2>&1
+# -uall expands untracked directories; default status collapses them and undercounts files
+$status = git status --porcelain -uall 2>&1
 if (-not $status) { Write-Output "no changes to commit; push skipped"; exit 0 }
 $n = ($status | Measure-Object -Line).Lines
 Write-Output "check3 changes: $n file(s)"
