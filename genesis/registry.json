@@ -1,7 +1,7 @@
 {
   "schema": "genesis.registry/1",
   "note": "注册表只追加记录，不篡改历史。回滚通过追加 rollback 记录实现。",
-  "updated_at": "2026-11-18",
+  "updated_at": "2026-11-19",
   "agents": {
     "genesis": [
       {
@@ -93,6 +93,24 @@
         "metrics": "同v1：G1日报产出率；G2 win_rate>0.85与台账逐笔一致；G3 entry_rate>=0.80；G4零违规",
         "eval": "genesis/reports/eval-glass-researcher-v4-20261118.md（静态审计PASS 4/4：diff恰为声明6处、L0/参数/流程12/12保留、无夹带无移除、RSI零残留；权限格式经官方文档独立核验；resource实测存在resource://eta/indicators/chemical含3731条映射）",
         "note": "O5权限修复变体：新增opencode_list_mcp_resources@crude-data与opencode_read_mcp_resource@crude-data:*两条allow，修复v3宽deny误伤MCP resource读取（命中率44%→运行时目标>=80%）。用户中途撤销RSI计算变更（RSI为消息来源标记非指标）零残留。运行时T5验证待今晚pipeline。播报链同步升级：报告通知+复盘简报双推送，标题带【RSI】来源标记 【2026-11-18晚间第二次评估】结算11-18行(genesis明示纠错:日K已发布曲合网+证券之星交叉验证昨结889/开890/高911/低887/收899/结算900,空头触发880最低887>880→未触发,状态数据缺失→未触发终态);data_missing_days 1→0;entered=0/win_rate=0(无样本)/entry_rate=0.0(0/2)/violation=0/consecutive_losses=0。三项差距:win_rate无样本、entry_rate=-0.80持平(根因v1空头方向错误11-18大涨收899但v1给空头,v1已retired不可迭代)、violation达标。进化决策:不动仅记录(v4刚部署运行时MCP验证待研判A1不触发MCP、强制立项未触发、小样本护栏entered<20、无新归因明确差距)。v4运行时MCP验证待第三段研判。详见 daily-evolve-20261118.md 第二轮章节"
+      }
+    ]
+  },
+  "assets": {
+    "glass-framework": [
+      {
+        "version": "1.0",
+        "parent": null,
+        "asset_type": "research-framework",
+        "status": "probation",
+        "file": "glass/framework.md",
+        "source_draft": "genesis/variants/glass-framework.v1.deploy.md",
+        "deployed_at": "2026-11-19",
+        "last_eval_at": "2026-11-19",
+        "goal": "为FG下一交易日研判提供可追溯的方向、区间与执行方法契约，服务于G2胜率、G3入场率、G4零违规，并为F3的G5方向准确率和G6区间覆盖率提供结构化输入",
+        "metrics": "F1静态契约裁决6/6 PASS；F2干跑C/S/方向/置信度独立复算一致率100%；F3目标G5>=0.60且同步报告direction_coverage、G6>=0.70；方向或区间有效样本<20时只作诊断，不作结果性进化宣称",
+        "eval": "genesis/reports/eval-glass-framework-v1-r2-20261119.md（PASS 6/6）+ genesis/reports/eval-glass-framework-v1-deploy-20261119.md（部署元数据PASS 4/4，除状态行外与已评估稿逐字节一致）",
+        "note": "F1框架驱动阶段产物。首轮eval-glass-framework-v1-20261119.md为FAIL 4/6：派遣任务案例④oracle算术错误（正确C=0.80/S=1.375）+供给未知误归0的真实草案缺陷；失败稿保留为glass-framework.v1.fail1.20261119.md。修订供给/需求null、基差操作化、持仓置信度截断、小样本披露后复审PASS。当前仅为只读框架资产，不改变glass-researcher v4行为；F2实装和研究员v5必须另走完整变体协议"
       }
     ]
   }
